@@ -1,0 +1,23 @@
+﻿@searchlog = 
+    EXTRACT UserId          int, 
+            Start           DateTime, 
+            Region          string, 
+            Query           string, 
+            Duration        int, 
+            Urls            string, 
+            ClickedUrls     string
+    FROM @"/Samples/Data/SearchLog.tsv"
+    USING Extractors.Tsv();
+
+@searchlog =
+    SELECT Query,
+           CodeBehind.MyHelpers.MyToUpper(Query) AS Query2
+    FROM @searchlog;
+
+OUTPUT @searchlog 
+    TO @"/Samples/Output/SearchLog_output.tsv"
+    USING Outputters.Tsv();
+
+
+
+
